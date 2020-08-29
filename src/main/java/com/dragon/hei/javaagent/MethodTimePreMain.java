@@ -1,6 +1,8 @@
 package com.dragon.hei.javaagent;
 
-import com.dragon.hei.javaagent.enhancer.TimeCostEnhancer;
+import com.dragon.hei.javaagent.enhancer.ClassEnhancer;
+import com.dragon.hei.javaagent.enhancer.javassist.LogEnhancer;
+import com.dragon.hei.javaagent.enhancer.javassist.TimeCostEnhancer;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
@@ -16,7 +18,8 @@ public class MethodTimePreMain {
 
     private static ClassFileTransformer myTransformer(){
 
-        TimeCostEnhancer timeCostEnhancer = new TimeCostEnhancer();
-        return new MyClassTransformer(timeCostEnhancer);
+        ClassEnhancer timeCostEnhancer = new TimeCostEnhancer();
+        ClassEnhancer logEnhancer = new LogEnhancer();
+        return new MyClassTransformer(timeCostEnhancer, logEnhancer);
     }
 }

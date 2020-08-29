@@ -19,7 +19,7 @@ public class MyClassTransformer implements ClassFileTransformer {
         this(null);
     }
 
-    public MyClassTransformer(ClassEnhancer ...enhancer){
+    public MyClassTransformer(ClassEnhancer...enhancer){
 
         enhancers = null == enhancers ? new ArrayList<ClassEnhancer>() : enhancers;
         if(null != enhancer){
@@ -36,14 +36,11 @@ public class MyClassTransformer implements ClassFileTransformer {
         if(!TransformerSwitch.transform(className)){
             return null;
         }
-//        if(null != className && className.indexOf("com/dragon/hei") != -1) {
-//            System.out.println("自定义类转换器：" + className);
-//        }
 
         for(ClassEnhancer enhancer : enhancers){
             try {
-                return enhancer.enhance(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
-            }catch (Exception e){
+                classfileBuffer = enhancer.enhance(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+            }catch (Throwable e){
                 e.printStackTrace();
             }
         }

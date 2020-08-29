@@ -7,5 +7,5 @@ public interface ClassEnhancer {
                    String className,
                    Class<?> classBeingRedefined,
                    ProtectionDomain protectionDomain,
-                   byte[] classfileBuffer) throws Exception;
+                   byte[] classfileBuffer) throws Throwable;
 }
