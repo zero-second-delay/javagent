@@ -23,7 +23,7 @@ public abstract class JavassistClassEnhancer implements ClassEnhancer {
         ClassPool classPool = ClassPool.getDefault();
         CtClass clazz = classPool.get(className);
         if(clazz.isFrozen()){
-            // 解冻，防止其他增强器报错"class is frozen"
+            // 解冻，防止同一个类已被其他增强器修改后冻结，而导致本增强器报错"class is frozen"
             clazz.defrost();
         }
 

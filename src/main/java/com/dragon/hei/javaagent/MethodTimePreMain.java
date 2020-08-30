@@ -20,6 +20,6 @@ public class MethodTimePreMain {
 
         ClassEnhancer timeCostEnhancer = new TimeCostEnhancer();
         ClassEnhancer logEnhancer = new LogEnhancer();
-        return new MyClassTransformer(timeCostEnhancer, logEnhancer);
+        return new MyClassTransformer(logEnhancer, timeCostEnhancer);
     }
 }

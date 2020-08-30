@@ -19,20 +19,21 @@ public class TimeCostEnhancer extends JavassistClassEnhancer {
 
     @Override
     protected byte[] transform(String className, byte[] classfileBuffer, CtClass clazz, ClassPool classPool) throws Throwable {
-        FileUtil.createClassFile("DefaultRuleChain0", classfileBuffer);
+        FileUtil.createClassFile("DefaultRuleChain-2", classfileBuffer);
         CtMethod oldMethod = clazz.getDeclaredMethod("matchRule");
 
         String oldMethodName = oldMethod.getName();
-        String newMethodName = oldMethod.getName() + "$impl";oldMethod.setName(newMethodName);
+        String newMethodName = oldMethod.getName() + "$impl_timeCost";
+        oldMethod.setName(newMethodName);
 
         CtMethod newMethod = CtNewMethod.copy(oldMethod, oldMethodName, clazz, null);
-
 
         StringBuilder newMethodBody = new StringBuilder();
         newMethodBody.append("{")
                 .append("long startTime_$$ = System.currentTimeMillis();\n")
-                .append(newMethodName + "($$);\n")
+                .append("Object $$result = " + newMethodName + "($$);\n")
                 .append("System.out.println(\"call " + className + "." +oldMethodName + " cost \" + (System.currentTimeMillis()-startTime_$$) + \" ms.\");")
+                .append("\nreturn $$result;")
                 .append("}");
 
         newMethod.setBody(newMethodBody.toString());
