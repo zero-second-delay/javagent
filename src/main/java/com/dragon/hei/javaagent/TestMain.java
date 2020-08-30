@@ -3,16 +3,15 @@ package com.dragon.hei.javaagent;
 import com.dragon.hei.javaagent.enhancer.ClassEnhancer;
 import com.dragon.hei.javaagent.enhancer.javassist.LogEnhancer;
 import com.dragon.hei.javaagent.enhancer.javassist.TimeCostEnhancer;
+import com.dragon.hei.javaagent.premain.MethodTimePreMain;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.Modifier;
-import javassist.bytecode.AccessFlag;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

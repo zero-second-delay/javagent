@@ -1,7 +1,7 @@
 package com.dragon.hei.javaagent.enhancer.javassist;
 
 
-import com.dragon.hei.javaagent.FileUtil;
+import com.dragon.hei.javaagent.utils.FileUtil;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -31,15 +31,16 @@ public class TimeCostEnhancer extends JavassistClassEnhancer {
         StringBuilder newMethodBody = new StringBuilder();
         newMethodBody.append("{")
                 .append("long startTime_$$ = System.currentTimeMillis();\n")
-                .append("Object $$result = " + newMethodName + "($$);\n")
-                .append("System.out.println(\"call " + className + "." +oldMethodName + " cost \" + (System.currentTimeMillis()-startTime_$$) + \" ms.\");")
-                .append("\nreturn $$result;")
+                //.append("Object $$result = " + newMethodName + "($$);\n")
+                .append(newMethodName + "($$);\n")
+                .append("System.out.println(\"[ExecuteTime] " + className + "." +oldMethodName + " cost \" + (System.currentTimeMillis()-startTime_$$) + \" ms\");")
+                //.append("\nreturn $$result;")
                 .append("}");
 
         newMethod.setBody(newMethodBody.toString());
         clazz.addMethod(newMethod);
         classfileBuffer = clazz.toBytecode();
-        FileUtil.createClassFile("DefaultRuleChain1", classfileBuffer);
+        FileUtil.createClassFile("DefaultRuleChain-3", classfileBuffer);
         return classfileBuffer;
     }
 }

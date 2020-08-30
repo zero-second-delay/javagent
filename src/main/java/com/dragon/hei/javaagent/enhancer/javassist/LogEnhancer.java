@@ -1,7 +1,7 @@
 package com.dragon.hei.javaagent.enhancer.javassist;
 
 
-import com.dragon.hei.javaagent.FileUtil;
+import com.dragon.hei.javaagent.utils.FileUtil;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -35,15 +35,15 @@ public class LogEnhancer extends JavassistClassEnhancer {
         newMethodBody.append("{\n");
                 //.append("\nSystem.out.println(\" param:\" + $1 + \", \" + $2);")
         newMethodBody.append("\nSystem.out.println(\"[Function][Begin] " + className + "."+ oldMethodName + " Param: \" + $1 + \", \" + $2);\n");
-        newMethodBody.append("Object $$result = " + newMethodName + "($$);");
-        if(CtClass.voidType != newMethod.getReturnType()) {
-            newMethodBody.append("\nSystem.out.println(\"[Function][End] " + className + "." + oldMethodName + " Return: \" + $$result);");
-        }else{
+        //newMethodBody.append("Object $$result = " + newMethodName + "($$);");
+        newMethodBody.append(newMethodName + "($$);");
+//        if(CtClass.voidType != newMethod.getReturnType()) {
+//            newMethodBody.append("\nSystem.out.println(\"[Function][End] " + className + "." + oldMethodName + " Return: \" + $$result);");
+//        }else{
             newMethodBody.append("\nSystem.out.println(\"[Function][End] " + className + "." + oldMethodName + "\");");
-        }
-        newMethodBody.append("\nreturn $$result;");
+//        }
+//        newMethodBody.append("\nreturn $$result;");
         newMethodBody.append("}");
-        System.out.println("返回值类型：：："+newMethod.getReturnType().getName());
         newMethod.setBody(newMethodBody.toString());
 
         clazz.addMethod(newMethod);
@@ -58,14 +58,14 @@ public class LogEnhancer extends JavassistClassEnhancer {
             MethodInfo methodInfo = method.getMethodInfo();
             CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
             LocalVariableAttribute attribute = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
-            System.out.println(attribute);
+//            System.out.println(attribute);
 
             CtClass[] paramTypes = method.getParameterTypes();
 
 
             int pos = Modifier.isStatic(method.getModifiers()) ? 0 : 1;
             for (int i = 0; i < paramTypes.length; i++) {
-                System.out.println("mmmmname"+paramTypes[i].getName());
+                //System.out.println("mmmmname"+paramTypes[i].getName());
                 String paramName = attribute.variableName(i + pos);
                 if(null != paramName){
                     paramNames.append(paramName + ".toString()");
@@ -77,7 +77,7 @@ public class LogEnhancer extends JavassistClassEnhancer {
         }catch (Throwable e){
             e.printStackTrace();
         }
-        System.out.println(paramNames);
+        //System.out.println(paramNames);
         return paramNames.toString();
     }
 }
