@@ -15,7 +15,7 @@ public abstract class JavassistClassEnhancer implements ClassEnhancer {
                    ProtectionDomain protectionDomain,
                    byte[] classfileBuffer) throws Throwable{
 
-        if(!transformSwitch(className)){
+        if(null == className || !transformSwitch(className)){
             return null;
         }
 
@@ -28,6 +28,11 @@ public abstract class JavassistClassEnhancer implements ClassEnhancer {
         }
 
         return transform(className, classfileBuffer, clazz, classPool);
+    }
+
+    protected String newMethodName(String src){
+        String postfix = this.getClass().getSimpleName();
+        return src + "$" + postfix;
     }
 
     /***

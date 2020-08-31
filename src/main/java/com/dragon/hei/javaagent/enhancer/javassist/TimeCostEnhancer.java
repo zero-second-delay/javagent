@@ -23,7 +23,7 @@ public class TimeCostEnhancer extends JavassistClassEnhancer {
         CtMethod oldMethod = clazz.getDeclaredMethod("matchRule");
 
         String oldMethodName = oldMethod.getName();
-        String newMethodName = oldMethod.getName() + "$impl_timeCost";
+        String newMethodName = super.newMethodName(oldMethodName);
         oldMethod.setName(newMethodName);
 
         CtMethod newMethod = CtNewMethod.copy(oldMethod, oldMethodName, clazz, null);

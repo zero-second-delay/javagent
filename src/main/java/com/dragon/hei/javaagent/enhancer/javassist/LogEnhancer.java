@@ -23,17 +23,16 @@ public class LogEnhancer extends JavassistClassEnhancer {
         CtMethod oldMethod = clazz.getDeclaredMethod("matchRule");
 
         String oldMethodName = oldMethod.getName();
-        String newMethodName = oldMethodName + "$impl_log";
+        String newMethodName = super.newMethodName(oldMethodName);
 
         CtMethod newMethod = CtNewMethod.copy(oldMethod, oldMethodName, clazz, null);
         oldMethod.setName(newMethodName);
 
         //TODO：打印参数对象，需要获取本地变量参数名
-        String paramNames = getMethodParamNames(newMethod);
+        //String paramNames = getMethodParamNames(newMethod);
 
         StringBuilder newMethodBody = new StringBuilder();
         newMethodBody.append("{\n");
-                //.append("\nSystem.out.println(\" param:\" + $1 + \", \" + $2);")
         newMethodBody.append("\nSystem.out.println(\"[Function][Begin] " + className + "."+ oldMethodName + " Param: \" + $1 + \", \" + $2);\n");
         //newMethodBody.append("Object $$result = " + newMethodName + "($$);");
         newMethodBody.append(newMethodName + "($$);");
