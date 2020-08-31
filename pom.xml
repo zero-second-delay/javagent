@@ -50,7 +50,7 @@
                         </manifest>
                         <manifestEntries>
                             <Premain-Class>com.dragon.hei.javaagent.premain.MethodTimePreMain</Premain-Class>
-                            <!--                            <Agent-Class>com.dragon.hei.javaagent.premain.MethodTimePreMain</Agent-Class>-->
+                            <!--<Agent-Class>com.dragon.hei.javaagent.premain.MethodTimePreMain</Agent-Class>-->
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
